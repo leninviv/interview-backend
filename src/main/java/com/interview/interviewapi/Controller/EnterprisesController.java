@@ -2,7 +2,11 @@ package com.interview.interviewapi.Controller;
 
 import com.interview.interviewapi.Entity.Enterprises;
 import com.interview.interviewapi.Repository.EnterprisesRepo;
+import com.interview.interviewapi.Service.AuthService;
 import com.interview.interviewapi.Service.EnterprisesService;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,11 +23,16 @@ public class EnterprisesController {
     private EnterprisesService enterprisesService;
 
     @Autowired
+    private AuthService authService;
+
+    @Autowired
     private EnterprisesRepo repo;
 
     @GetMapping
     @RequestMapping(value = "read", method = RequestMethod.GET)
-    public ResponseEntity<?> read(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam("search") String search){
+    public ResponseEntity<?> read(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam("search") String search, @RequestHeader("Authorization") String bearerToken){
+        String tokenR = authService.validateJWT(bearerToken);
+
         HashMap<String, List> map = new HashMap<>();
         List<Integer> al = new ArrayList<Integer>();
         int count  = 0;
@@ -44,7 +53,9 @@ public class EnterprisesController {
 
     @GetMapping
     @RequestMapping(value = "readone", method = RequestMethod.GET)
-    public ResponseEntity<?> readone(@RequestParam("id") long id){
+    public ResponseEntity<?> readone(@RequestParam("id") long id, @RequestHeader("Authorization") String bearerToken){
+        String tokenR = authService.validateJWT(bearerToken);
+
         List<Integer> al = new ArrayList<Integer>();
         List<Enterprises> listaEnterprises = this.enterprisesService.getOne(id);
         return ResponseEntity.ok(listaEnterprises);
@@ -53,10 +64,12 @@ public class EnterprisesController {
     @PostMapping
     @RequestMapping(value = "create", method = RequestMethod.POST)
     @ResponseBody
-    public ResponseEntity<?> create(@RequestBody Enterprises enterprises){
+    public ResponseEntity<?> create(@RequestBody Enterprises enterprises, @RequestHeader("Authorization") String bearerToken){
         Date date = new Date();
+        String tokenR = authService.validateJWT(bearerToken);
 
         enterprises.setCreatedDate(date);
+        enterprises.setCreatedBy(tokenR);
         enterprises.setStatus(true);
 
         this.enterprisesService.create(enterprises);
@@ -66,12 +79,13 @@ public class EnterprisesController {
     @PutMapping
     @RequestMapping(value = "update", method = RequestMethod.PUT)
     @ResponseBody
-    public ResponseEntity<?> update(@RequestBody Enterprises enterprises, @RequestParam("id") long id){
+    public ResponseEntity<?> update(@RequestBody Enterprises enterprises, @RequestParam("id") long id, @RequestHeader("Authorization") String bearerToken){
         String name = enterprises.getName();
         String phone = enterprises.getPhone();
         String address = enterprises.getAddress();
         Boolean status = enterprises.isStatus();
         Date date = new Date();
+        String tokenR = authService.validateJWT(bearerToken);
 
         Enterprises entityToUpdate = this.repo.getOne(id);
         entityToUpdate.setName(name);
@@ -79,6 +93,7 @@ public class EnterprisesController {
         entityToUpdate.setAddress(address);
         entityToUpdate.setStatus(status);
         entityToUpdate.setModifiedDate(date);
+        entityToUpdate.setModifiedBy(tokenR);
 
         this.enterprisesService.update(entityToUpdate);
 

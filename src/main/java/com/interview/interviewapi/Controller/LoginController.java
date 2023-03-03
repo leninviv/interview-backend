@@ -1,17 +1,14 @@
 package com.interview.interviewapi.Controller;
 
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 import java.util.HashMap;
 
 import com.interview.interviewapi.Repository.UserRepo;
+import com.interview.interviewapi.Service.AuthService;
 import com.interview.interviewapi.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
 
 import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
@@ -23,6 +20,9 @@ public class LoginController {
 
     @Autowired
     private UserRepo repo;
+
+    @Autowired
+    private AuthService authService;
 
     @GetMapping
     @RequestMapping(value = "auth", method = RequestMethod.GET)
@@ -43,10 +43,9 @@ public class LoginController {
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] digest = md.digest(password.getBytes(StandardCharsets.UTF_8));
         String passFromRequest = DatatypeConverter.printHexBinary(digest);
-
         if(userOnDb.getPassword().equals(passFromRequest)){
             map.put("status", "ok");
-            map.put("token", getJWTToken(username));
+            map.put("token", authService.getJWTToken(username));
             map.put("message", "Autenticación correcta.");
             return ResponseEntity.ok(map);
         }else{
@@ -55,20 +54,5 @@ public class LoginController {
             map.put("message", "Contraseña incorrecta.");
             return ResponseEntity.ok(map);
         }
-    }
-
-    private String getJWTToken(String username) {
-        String secretKey = "interviewSecretKey";
-
-        String token = Jwts
-                .builder()
-                .setId("softtekJWT")
-                .setSubject(username)
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 600000))
-                .signWith(SignatureAlgorithm.HS512,
-                        secretKey.getBytes()).compact();
-
-        return "Bearer " + token;
     }
 }
