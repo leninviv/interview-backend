@@ -35,4 +35,12 @@ public class EnterprisesService {
 
         return lista;
     }
+
+    public void create(Enterprises enterprises){
+        this.repo.saveAndFlush(enterprises);
+    }
+
+    public void update(Enterprises enterprises){
+        this.repo.saveAndFlush(enterprises);
+   }
 }

@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("enterprises")
@@ -50,4 +50,38 @@ public class EnterprisesController {
         return ResponseEntity.ok(listaEnterprises);
     }
 
+    @PostMapping
+    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @ResponseBody
+    public ResponseEntity<?> create(@RequestBody Enterprises enterprises){
+        Date date = new Date();
+
+        enterprises.setCreatedDate(date);
+        enterprises.setStatus(true);
+
+        this.enterprisesService.create(enterprises);
+        return ResponseEntity.ok("ok");
+    }
+
+    @PostMapping
+    @RequestMapping(value = "update", method = RequestMethod.PUT)
+    @ResponseBody
+    public ResponseEntity<?> update(@RequestBody Enterprises enterprises, @RequestParam("id") long id){
+        String name = enterprises.getName();
+        String phone = enterprises.getPhone();
+        String address = enterprises.getAddress();
+        Boolean status = enterprises.isStatus();
+        Date date = new Date();
+
+        Enterprises entityToUpdate = this.repo.getOne(id);
+        entityToUpdate.setName(name);
+        entityToUpdate.setPhone(phone);
+        entityToUpdate.setAddress(address);
+        entityToUpdate.setStatus(status);
+        entityToUpdate.setModifiedDate(date);
+
+        this.enterprisesService.update(entityToUpdate);
+
+        return ResponseEntity.ok("ok");
+    }
 }
