@@ -63,7 +63,7 @@ public class EnterprisesController {
         return ResponseEntity.ok("ok");
     }
 
-    @PostMapping
+    @PutMapping
     @RequestMapping(value = "update", method = RequestMethod.PUT)
     @ResponseBody
     public ResponseEntity<?> update(@RequestBody Enterprises enterprises, @RequestParam("id") long id){
