@@ -13,10 +13,12 @@ import java.util.Map;
 public class AuthService {
 
     public String getJWTToken(String username){
+        //clave secreta para generacion  de jwt
         String secretKey = "interviewSecretKey";
 
         Map<String, Object> claims = new HashMap<>();
 
+        //generacion de jwt
         String token = Jwts.builder()
                 .setClaims(claims)
                 .setSubject(username)
@@ -29,6 +31,7 @@ public class AuthService {
     }
 
     public String validateJWT(String token){
+        //validador de jwt sitodo bien devuelve subject donde esta el username logeuado
         Claims claims = Jwts.parser()
                 .setSigningKey("interviewSecretKey")
                 .parseClaimsJws(token)

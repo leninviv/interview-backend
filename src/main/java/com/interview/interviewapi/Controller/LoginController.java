@@ -29,8 +29,8 @@ public class LoginController {
     public ResponseEntity<?> auth(@RequestParam("username") String username, @RequestParam("password") String password) throws NoSuchAlgorithmException {
         HashMap<String, String> map = new HashMap<>();
 
+        //validacion de username (si existe)
         int userCount = this.repo.countByusernameContainingIgnoreCase(username);
-
         if(userCount < 1){
             map.put("status", "error");
             map.put("code", "01");
@@ -38,11 +38,15 @@ public class LoginController {
             return ResponseEntity.ok(map);
         }
 
+        //get data de usuario
         User userOnDb = this.repo.getUserByusernameContainingIgnoreCase(username);
 
+        //hash a md5 la contraseña
         MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] digest = md.digest(password.getBytes(StandardCharsets.UTF_8));
         String passFromRequest = DatatypeConverter.printHexBinary(digest);
+
+        //valida si es igual a la de la db
         if(userOnDb.getPassword().equals(passFromRequest)){
             map.put("status", "ok");
             map.put("token", authService.getJWTToken(username));
