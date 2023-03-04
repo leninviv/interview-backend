@@ -7,6 +7,7 @@ import com.interview.interviewapi.Repository.UserRepo;
 import com.interview.interviewapi.Service.AuthService;
 import com.interview.interviewapi.Entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +25,7 @@ public class LoginController {
     @Autowired
     private AuthService authService;
 
+    @CrossOrigin(maxAge = 3600)
     @GetMapping
     @RequestMapping(value = "auth", method = RequestMethod.GET)
     public ResponseEntity<?> auth(@RequestParam("username") String username, @RequestParam("password") String password) throws NoSuchAlgorithmException {

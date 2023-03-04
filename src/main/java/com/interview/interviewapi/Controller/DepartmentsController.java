@@ -23,6 +23,7 @@ public class DepartmentsController {
     @Autowired
     private DepartmentsRepo repo;
 
+    @CrossOrigin(maxAge = 3600)
     @GetMapping
     @RequestMapping(value = "read", method = RequestMethod.GET)
     public ResponseEntity<?> read(@RequestParam("page") int page, @RequestParam("limit") int limit, @RequestParam("search") String search, @RequestHeader("Authorization") String bearerToken){
@@ -50,6 +51,7 @@ public class DepartmentsController {
         return ResponseEntity.ok(map);
     }
 
+    @CrossOrigin(maxAge = 3600)
     @GetMapping
     @RequestMapping(value = "readone", method = RequestMethod.GET)
     public ResponseEntity<?> readone(@RequestParam("id") long id, @RequestHeader("Authorization") String bearerToken){
@@ -62,6 +64,7 @@ public class DepartmentsController {
         return ResponseEntity.ok(listaDepartments);
     }
 
+    @CrossOrigin(maxAge = 3600)
     @PostMapping
     @RequestMapping(value = "create", method = RequestMethod.POST)
     @ResponseBody
@@ -79,6 +82,7 @@ public class DepartmentsController {
         return ResponseEntity.ok("ok");
     }
 
+    @CrossOrigin(maxAge = 3600)
     @PutMapping
     @RequestMapping(value = "update", method = RequestMethod.PUT)
     @ResponseBody
