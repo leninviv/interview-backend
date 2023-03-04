@@ -1,12 +1,11 @@
 package com.interview.interviewapi.Entity;
-
 import jakarta.persistence.*;
 
 import java.util.Date;
 
 @Entity
-@Table(name = "enterprises")
-public class Enterprises {
+@Table(name = "employees")
+public class Employees {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -15,11 +14,17 @@ public class Enterprises {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "phone")
-    private String phone;
+    @Column(name = "surname")
+    private String surname;
 
-    @Column(name = "address")
-    private String address;
+    @Column(name = "age")
+    private int age;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "position")
+    private String position;
 
     @Column(name = "status")
     private boolean status;
@@ -54,20 +59,36 @@ public class Enterprises {
         this.name = name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getSurname() {
+        return surname;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setSurname(String surname) {
+        this.surname = surname;
     }
 
-    public String getAddress() {
-        return address;
+    public int getAge() {
+        return age;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
     }
 
     public boolean isStatus() {

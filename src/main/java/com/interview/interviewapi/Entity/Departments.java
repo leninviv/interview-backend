@@ -5,21 +5,24 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "enterprises")
-public class Enterprises {
+@Table(name = "departments")
+public class Departments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private int id;
 
+    @Column(name = "id_enterprise")
+    private int idEnterprise;
+
     @Column(name = "name")
     private String name;
 
+    @Column(name = "description")
+    private String description;
+
     @Column(name = "phone")
     private String phone;
-
-    @Column(name = "address")
-    private String address;
 
     @Column(name = "status")
     private boolean status;
@@ -46,6 +49,14 @@ public class Enterprises {
         this.id = id;
     }
 
+    public int getIdEnterprise() {
+        return idEnterprise;
+    }
+
+    public void setIdEnterprise(int idEnterprise) {
+        this.idEnterprise = idEnterprise;
+    }
+
     public String getName() {
         return name;
     }
@@ -54,20 +65,20 @@ public class Enterprises {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getPhone() {
         return phone;
     }
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 
     public boolean isStatus() {
