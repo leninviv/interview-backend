@@ -171,7 +171,7 @@ public class EmployeesController {
     @CrossOrigin(maxAge = 3600)
     @DeleteMapping
     @RequestMapping(value = "deletedepartment", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deletedeparment(@RequestParam("id") long id, @RequestHeader("Authorization") String bearerToken){
+    public ResponseEntity<?> deletedeparment(@RequestParam("id") long id){
         DepartmentsEmployees departmentsEmployees = this.repoD.getOne(id);
         this.employeesService.deteleDeparment(departmentsEmployees);
 
