@@ -84,7 +84,11 @@ public class EmployeesController {
         employees.setStatus(true);
 
         this.employeesService.create(employees);
-        return ResponseEntity.ok("ok");
+
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status", "ok");
+        return ResponseEntity.ok(map);
     }
 
     @CrossOrigin(maxAge = 3600)
@@ -115,7 +119,9 @@ public class EmployeesController {
 
         this.employeesService.update(entityToUpdate);
 
-        return ResponseEntity.ok("ok");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status", "ok");
+        return ResponseEntity.ok(map);
     }
 
     @CrossOrigin(maxAge = 3600)
@@ -133,7 +139,10 @@ public class EmployeesController {
         departmentsEmployees.setStatus(true);
 
         this.employeesService.createdepartment(departmentsEmployees);
-        return ResponseEntity.ok("ok");
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status", "ok");
+        return ResponseEntity.ok(map);
     }
 
     @CrossOrigin(maxAge = 3600)
@@ -165,6 +174,10 @@ public class EmployeesController {
     public ResponseEntity<?> deletedeparment(@RequestParam("id") long id, @RequestHeader("Authorization") String bearerToken){
         DepartmentsEmployees departmentsEmployees = this.repoD.getOne(id);
         this.employeesService.deteleDeparment(departmentsEmployees);
-        return ResponseEntity.ok("ok");
+
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status", "ok");
+        return ResponseEntity.ok(map);
     }
 }

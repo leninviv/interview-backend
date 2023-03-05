@@ -102,7 +102,11 @@ public class UserController {
         user.setStatus(true);
 
         this.userService.create(user);
-        return ResponseEntity.ok("ok");
+
+        HashMap<String, String> map2 = new HashMap<>();
+        map2.put("status", "ok");
+        return ResponseEntity.ok(map2);
+
     }
 
     @CrossOrigin(maxAge = 3600)
@@ -149,6 +153,8 @@ public class UserController {
 
         this.userService.update(entityToUpdate);
 
-        return ResponseEntity.ok("ok");
+        HashMap<String, String> map2 = new HashMap<>();
+        map2.put("status", "ok");
+        return ResponseEntity.ok(map2);
     }
 }

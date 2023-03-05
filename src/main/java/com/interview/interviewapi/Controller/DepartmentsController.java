@@ -79,7 +79,10 @@ public class DepartmentsController {
         departments.setStatus(true);
 
         this.departmentsService.create(departments);
-        return ResponseEntity.ok("ok");
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status", "ok");
+        return ResponseEntity.ok(map);
     }
 
     @CrossOrigin(maxAge = 3600)
@@ -108,6 +111,8 @@ public class DepartmentsController {
 
         this.departmentsService.update(entityToUpdate);
 
-        return ResponseEntity.ok("ok");
+        HashMap<String, String> map = new HashMap<>();
+        map.put("status", "ok");
+        return ResponseEntity.ok(map);
     }
 }
